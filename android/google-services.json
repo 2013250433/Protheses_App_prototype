@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "271497519171",
+    "firebase_url": "https://prothesesapp-1526302723059.firebaseio.com",
+    "project_id": "prothesesapp-1526302723059",
+    "storage_bucket": "prothesesapp-1526302723059.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271497519171:android:645935b37af74d63",
+        "android_client_info": {
+          "package_name": "com.prothesis_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271497519171-3f3dupd4eamgg7k90i8tpm4d6dhep5ag.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "271497519171-hj1mk87fih330cn4kj9gfc2fjk9mcl9d.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "271497519171-3f3dupd4eamgg7k90i8tpm4d6dhep5ag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-ZugikwXVjxK2K4Mk9ld1q5bVF9mVDuA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271497519171-3f3dupd4eamgg7k90i8tpm4d6dhep5ag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
