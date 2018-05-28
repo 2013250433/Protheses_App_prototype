@@ -19,7 +19,6 @@ export default class HomeScreen extends Component<Props> {
 static navigationOptions = {
 	header: null
 };
-
   render() {
     return (
       <View style={{flex:1}}>
@@ -29,10 +28,10 @@ static navigationOptions = {
 		</View>
 		
 		<View style={{flex:8, backgroundColor:"skyblue"}}>
-		
+			<Image style={{flex: 1, width: null, height: null}} source={require('./res/bluetooth_disabled.png')} />
 		</View>
 		
-		<View style={{flex:1.4, flexDirection:'row'}}>
+		<View style={{flex:1.4, flexDirection:'row', backgroundColor:'#fff'}}>
 			<View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
 				<TouchableOpacity onPress={() => this.props.navigation.navigate('DB')}>
 				<Image source={require('./res/list_icon.png')} />
@@ -40,7 +39,7 @@ static navigationOptions = {
 			</View>
 			<View style={{flex:10}}/>
 			<View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
-				<TouchableOpacity onPress={() => this.props.navigation.navigate('Record')}>
+				<TouchableOpacity onPress={() => this.props.navigation.navigate('Setting')}>
 				<Image source={require('./res/setting_icon.png')} />
 				</TouchableOpacity>
 			</View>

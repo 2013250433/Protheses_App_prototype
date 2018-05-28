@@ -1,70 +1,179 @@
 import React, { Component } from 'react';
-import {Text, View, TouchableOpacity,-} from 'react-native';
-
-import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
-import firebase from 'firebase'
-
-export default class SettingScreen extends Component<{}> {
-	componentDidMount(){
-		GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-    // play services are available. can now configure library
-})
-.catch((err) => {
-  console.log("Play services error", err.code, err.message);
-})
+import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, AsyncStorage, Image,} from 'react-native';
+import PushController from './PushController';
+import PushNotification from 'react-native-push-notification';
 
 
-GoogleSignin.configure({
-  scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
-  //iosClientId: <FROM DEVELOPER CONSOLE>, // only for iOS
-  webClientId: "271497519171-hj1mk87fih330cn4kj9gfc2fjk9mcl9d.apps.googleusercontent.com", // client ID of type WEB for your server (needed to verify user ID and offline access)
-  //offlineAccess: true // if you want to access Google API on behalf of the user FROM YOUR SERVER
-  //hostedDomain: '' // specifies a hosted domain restriction
-  //forceConsentPrompt: true // [Android] if you want to show the authorization prompt at each login
-  //accountName: '' // [Android] specifies an account name on the device that should be used
-})
-.then(() => {
-  // you can now call currentUserAsync()
-});
+export default class SettingScreen extends Component{
+	
+	constructor(props){
+		super(props);
+		
+		this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		this.state = {
+			seconds: 10,
+			toggle: true,
+			completeSwitch: false,
+		};
+		
+		
 	}
 	
-handle(){
-	GoogleSignin.signIn()
-.then((user) => {
-  console.log(user);
-  this.setState({user: user});
-})
-.catch((err) => {
-  console.log('WRONG SIGNIN', err);
-})
-.done();
-}
-	render(){
-		return(
-		<View><GoogleSigninButton
-    style={{width: 48, height: 48}}
-    size={GoogleSigninButton.Size.Icon}
-    color={GoogleSigninButton.Color.Dark}
-    onPress={this.handle.bind(this)}/>
-</View>		
+	
+	//added for AsyncStorage
+	componentWillMount(){
+		this.callStorage();
+	}
+	
+	callStorage = async() => {
+		try{
+			let value = await AsyncStorage.getItem('@complete');
+			if(value == 'true_jin'){
+				alert('참');
+				this.setState({completeSwitch:true});
+			}
+			else{
+				alert('거짓');
+				this.setState({completeSwitch:false});
+			}
+				
+		}
+		catch(error){
+		}
+	}
+	
+	componentDidMount(){
+		AppState.addEventListener('change',this.handleAppStateChange);
+			
+	}
+	
+	componentWillUnmount(){
+		AppState.removeEventListener('change',this.handleAppStateChange);
+		
+	}	
+	
+	handleAppStateChange(appState) {
+		if(appState === 'background'){
+			console.log('app is in background',this.state.seconds);
+			var date = new Date(Date.now() + (this.state.seconds * 1000));
+			
+			if(Platform.OS === 'ios')
+				date= date.toISOString();
+				
+			PushNotification.localNotificationSchedule({
+			message: "My Notification Message", // (required)
+			date,
+			});
+		}
+	}
+	
+	ShowAlert = (value) =>{		
+	
+	this.setState({
+    completeSwitch: value
+	})
+	this.saveData(value);
+	
+	if(value == true)
+		Alert.alert("Switch is On.");
+	else
+		Alert.alert("Switch is Off.");
+	}
+	
+
+	render() {
+		return (
+		<View style={{flex:1, backgroundColor:"#FFF"}}>
+		
+		 <View style={{flex:1,}}>
+			<View style={styles.setting_header}>
+				<Image style={{}} source={require('./res/main_setting_icon.png')} />
+				<Text style={styles.textStyle}> Main Settings</Text>
+			</View>
+			<View>
+				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Delete Account </Text>
+				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Cleaning Record Reset </Text>
+			</View>
+			</View>
+		 
+		 
+		 <View style={{flex:2, backgroundColor:"#FFF"}}>
+			<View style={styles.setting_header}>
+				<Image style={{}} source={require('./res/notification_setting_icon.png')} />
+				<Text style={styles.textStyle}> Notification Settings</Text>
+			</View>
+			<View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+				<Text style={styles.textStyle}>Completion Push</Text>
+				<Switch onValueChange={(value) => this.ShowAlert(value)} value={this.state.completeSwitch}/>
+				<Text style={styles.textStyle}>Cleaning reminder</Text>
+				<Switch onValueChange={(value) => this.saveData()}/>
+			</View>
+		 </View>
+		 
+		 <View style={{flex:2}}>
+			<View style={styles.setting_header}>
+				<Image style={{}} source={require('./res/custom_setting_icon.png')} />
+				<Text style={styles.textStyle}> Custom Settings</Text>
+			</View>
+			
+			<View style={{alignItems:'center'}}>
+			<Text style={styles.textStyle}>Choose your notification time in seconds </Text>
+			<Picker
+				style={[styles.picker,]}
+				selectedValue={this.state.seconds}
+				onValueChange={(seconds) => this.setState({seconds})}
+			>
+				<Picker.Item label="5" value={5} />
+				<Picker.Item label="10" value={10} />
+				<Picker.Item label="15" value={15} />
+			</Picker>
+			<PushController />
+			</View>
+		 </View>
+		 
+		</View>
 		);
+	}
+	
+	saveData(value) {
+		let toggle;
+		if(value == true)
+			toggle = 'true_jin';
+		else
+			toggle = 'false_jin';
+		AsyncStorage.setItem('@complete',toggle);
+	}
+	
+	displayData = async () => {
+		try{
+			let user = await AsyncStorage.getItem('user');
+			alert(user);
+		}
+		catch(error){
+		}
 	}
 }
 
-//<TouchableOpacity onPress = {this._callGoogle.bind(this)}> <View style = {styles.button}> <Text style={styles.buttonText}>Google Sign In</Text> </View> </TouchableOpacity>
-		
-const styles ={
-button: {
-justifyContent: 'center',
-alignItem: 'center',
-padding: 10,
-borderRadius: 10,
-backgroundColor: 'rgb(202, 0, 0)'
-},
-buttonText: {
-fontSize: 16,
-fontWeight: 'bold',
-color: '#FFFFFF'
-}
-
-}
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#F5FCFF',
+	},
+	picker: {
+		width: 100,
+	},
+	textStyle: {
+		fontSize: 20,
+		fontWeight: 'bold'
+	},
+	
+	setting_header: {
+		flexDirection:'row',  
+		paddingTop: 8, 
+		paddingBottom: 10, 
+		borderBottomColor: 'gray',
+		borderBottomWidth: 1,
+	},
+});

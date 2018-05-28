@@ -21,16 +21,14 @@ import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 import HomeScreen from "./HomeScreen";
-//import SettingScreen from "./SettingScreen";
-import RecordScreen from "./RecordScreen";
+import SettingScreen from "./SettingScreen";
 import DBScreen from "./DBScreen";
 
 
 const RootStack = createStackNavigator(
 	{
 		Home: HomeScreen,
-		//Setting: SettingScreen,
-		Record: RecordScreen,
+		Setting: SettingScreen,
 		DB: DBScreen,
 	},
 	{
