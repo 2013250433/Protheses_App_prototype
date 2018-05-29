@@ -94,7 +94,7 @@ export default class SettingScreen extends Component{
 				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Delete Account </Text>
 				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Cleaning Record Reset </Text>
 			</View>
-			</View>
+		</View>
 		 
 		 
 		 <View style={{flex:2, backgroundColor:"#FFF"}}>

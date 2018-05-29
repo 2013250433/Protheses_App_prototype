@@ -74,7 +74,7 @@ export default class HomeScreen extends Component<Props> {
 				var d = new Date();
 				realm.create('Cleaning_Timestamp',{
 					id: ID,
-					date: (d.getMonth()+1).toString() + '/' +(d.getDate()).toString(),
+					date: (d.getFullYear()).toString()+ '. '+(d.getMonth()+1).toString() + '. ' +(d.getDate()).toString(),
 					time: d.getHours() + ':' + d.getMinutes(),
 				})
 			});

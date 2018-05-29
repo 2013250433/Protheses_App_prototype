@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, View, TouchableOpacity, StyleSheet, Alert, Text, ScrollView } from 'react-native'
+import { TextInput, View, TouchableOpacity, StyleSheet, Alert, Text, ScrollView, Image } from 'react-native'
 
 const Realm = require('realm');
 
@@ -34,6 +34,47 @@ export default class DBScreen extends Component<{}> {
 			var myJSON = JSON.stringify(A);
 			
 			return (
+				<View style={{flex:1}}>
+					<View style={styles.DB_header}>
+						<Image source={require('./res/cleaning_record_icon.png')} />
+						<Text style={styles.textStyle}> Cleaning Record </Text>
+					</View>
+				
+					<View style={{flex:9, flexDirection: 'row', backgroundColor: '#fff'}}>
+						<View style={{flex:4, alignItems:'center', borderRightColor: 'gray', borderRightWidth: 1}}>
+							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Date </Text>
+						</View>
+						<View style={{flex:3, alignItems:'center'}}>
+							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Time </Text>
+							<Text> {myJSON}</Text>
+						</View>
+					</View>
+					
+					<View style={{flex:1}}>
+					</View>
+				</View>
+			);
+		}
+	
+}
+
+const styles = StyleSheet.create({
+	
+	textStyle: {
+		fontSize: 20,
+		fontWeight: 'bold'
+	},
+	
+	DB_header: {
+		flex:1, 
+		flexDirection: 'row', 
+		alignItems:'center', 
+		borderBottomColor: 'gray', 
+		borderBottomWidth: 1, 
+		backgroundColor: '#fff' },
+});
+
+/*
 				<View>
 					<TextInput placeholder="Hi" 
 					onChangeText = { (text) => {this.setState({Comment: text})} } />
@@ -44,11 +85,8 @@ export default class DBScreen extends Component<{}> {
 					<Text>{myJSON}</Text>
 					</ScrollView>
 				</View>
-			);
-		}
 	
-}
-
+	
 const styles = StyleSheet.create({
     
   TextInputStyle:
@@ -78,3 +116,4 @@ const styles = StyleSheet.create({
     }
     
 });
+*/
