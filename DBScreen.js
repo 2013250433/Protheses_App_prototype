@@ -12,18 +12,6 @@ export default class DBScreen extends Component<{}> {
 				Time : '',
 				Comment : '',
 			}
-			
-			realm = new Realm({
-				schema: [{name: 'Cleaning_Timestamp',
-				properties: 
-				{
-					id: {type:'int', default:0},				
-					date: 'string',
-					time: 'string',
-					comment: 'string',
-				}
-				}]
-			});
 		}
 		
 		add_Record=()=>{
@@ -35,7 +23,6 @@ export default class DBScreen extends Component<{}> {
 					id: ID,
 					date: (d.getMonth()+1).toString() + '/' +(d.getDate()).toString(),
 					time: d.getHours() + ':' + d.getMinutes(),
-					comment: this.state.Comment
 				})
 			});
 			
