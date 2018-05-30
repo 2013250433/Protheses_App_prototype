@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import {Text, View, TouchableOpacity,-} from 'react-native';
+import {Text, View, TouchableOpacity,} from 'react-native';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
-import firebase from 'firebase'
+
+import {
+  StackNavigator,
+} from 'react-navigation';
 
 export default class SettingScreen extends Component<{}> {
 	componentDidMount(){
@@ -41,13 +44,12 @@ handle(){
 }
 	render(){
 		return(
-		
-		<View><GoogleSigninButton
-    style={{width: 48, height: 48}}
-    size={GoogleSigninButton.Size.Icon}
-    color={GoogleSigninButton.Color.Dark}
-    onPress={this.handle.bind(this)}/>
-</View>		
+		<View>
+			<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.handle.bind(this)}/>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('Setting')}>
+				<Text> To HomeScreen</Text>
+			</TouchableOpacity>
+		</View>		
 		);
 	}
 }

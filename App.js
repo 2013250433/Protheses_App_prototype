@@ -23,6 +23,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 import HomeScreen from "./HomeScreen";
 import SettingScreen from "./SettingScreen";
 import DBScreen from "./DBScreen";
+import LoginScreen from "./LoginScreen";
 
 
 const RootStack = createStackNavigator(
@@ -30,9 +31,10 @@ const RootStack = createStackNavigator(
 		Home: HomeScreen,
 		Setting: SettingScreen,
 		DB: DBScreen,
+		Login: LoginScreen,
 	},
 	{
-		initialRouteName: 'Home',
+		initialRouteName: 'Login',
 	}
 );
 
