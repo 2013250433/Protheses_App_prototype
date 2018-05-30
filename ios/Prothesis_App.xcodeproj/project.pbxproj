@@ -40,6 +40,10 @@
 		F56FEE1DEDC84CA8988D3D5E /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22AC8839D63046D78E3D2FB1 /* libRealmReact.a */; };
 		5047BDB5AB4549D9A54F3E09 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 01572E2FFC6240538377D4DA /* libc++.tbd */; };
 		EF996859A50E4AA58DBAC75D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A8FF08ABD642989FB7556E /* libz.tbd */; };
+		CB936360CD1B48D7BD116F42 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB86B2FDA1B44A8886CC540 /* libRNGoogleSignin.a */; };
+		44E31D4E502940369B0E57E0 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1355C531F29E48648FB4A73D /* SafariServices.framework */; };
+		C9A56947A1B04AAF8F86682A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E01D8FE55274DF7B6C94D44 /* SystemConfiguration.framework */; };
+		3079061B279C421EAC368C59 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D150A72C7D714444B1372ACC /* AddressBook.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,6 +353,11 @@
 		22AC8839D63046D78E3D2FB1 /* libRealmReact.a */ = {isa = PBXFileReference; name = "libRealmReact.a"; path = "libRealmReact.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		01572E2FFC6240538377D4DA /* libc++.tbd */ = {isa = PBXFileReference; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		64A8FF08ABD642989FB7556E /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		96F1BD16942F4410B74DBE35 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; name = "RNGoogleSignin.xcodeproj"; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CBB86B2FDA1B44A8886CC540 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; name = "libRNGoogleSignin.a"; path = "libRNGoogleSignin.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1355C531F29E48648FB4A73D /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		8E01D8FE55274DF7B6C94D44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		D150A72C7D714444B1372ACC /* AddressBook.framework */ = {isa = PBXFileReference; name = "AddressBook.framework"; path = "System/Library/Frameworks/AddressBook.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +389,10 @@
 				F56FEE1DEDC84CA8988D3D5E /* libRealmReact.a in Frameworks */,
 				5047BDB5AB4549D9A54F3E09 /* libc++.tbd in Frameworks */,
 				EF996859A50E4AA58DBAC75D /* libz.tbd in Frameworks */,
+				CB936360CD1B48D7BD116F42 /* libRNGoogleSignin.a in Frameworks */,
+				44E31D4E502940369B0E57E0 /* SafariServices.framework in Frameworks */,
+				C9A56947A1B04AAF8F86682A /* SystemConfiguration.framework in Frameworks */,
+				3079061B279C421EAC368C59 /* AddressBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +544,9 @@
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				01572E2FFC6240538377D4DA /* libc++.tbd */,
 				64A8FF08ABD642989FB7556E /* libz.tbd */,
+				1355C531F29E48648FB4A73D /* SafariServices.framework */,
+				8E01D8FE55274DF7B6C94D44 /* SystemConfiguration.framework */,
+				D150A72C7D714444B1372ACC /* AddressBook.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -569,6 +585,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				3FBEB8A68508420C9607F214 /* RealmReact.xcodeproj */,
+				96F1BD16942F4410B74DBE35 /* RNGoogleSignin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1196,10 +1213,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Debug;
@@ -1221,10 +1240,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Release;
@@ -1247,6 +1268,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Debug;
@@ -1268,6 +1290,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Release;
@@ -1298,10 +1321,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Debug;
@@ -1332,10 +1357,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Release;
@@ -1365,10 +1392,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Debug;
@@ -1398,10 +1427,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\realm\src/**",
+					"$(SRCROOT)\..\node_modules\react-native-google-signin\ios\RNGoogleSignin/**",
 				);
 			};
 			name = Release;
