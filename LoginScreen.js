@@ -7,6 +7,8 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
+import firebase from 'firebase';
+
 export default class SettingScreen extends Component<{}> {
 	componentDidMount(){
 		GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
@@ -39,9 +41,54 @@ handle(){
 })
 .catch((err) => {
   console.log('WRONG SIGNIN', err);
+  alert("fuck"+err);
+  
 })
 .done();
 }
+
+//react-native-firebase code
+googleLogin = async () => {
+  try {
+    // Add any configuration settings here:
+    await GoogleSignin.configure();
+
+    const data = await GoogleSignin.signIn();
+
+    // create a new firebase credential with the token
+    const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+    // login with credential
+    const currentUser = await firebase.auth().signInWithCredential(credential);
+
+    console.info(JSON.stringify(currentUser.toJSON()));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+//medium invertarse code
+onLoginOrRegister = () => {
+  GoogleSignin.signIn()
+    .then((data) => {
+      // Create a new Firebase credential with the token
+      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+      // Login with the credential
+      return firebase.auth().signInWithCredential(credential);
+    })
+    .then((user) => {
+      // If you need to do anything with the user, do it here
+      // The user will be logged in automatically by the
+      // `onAuthStateChanged` listener we set up in App.js earlier
+    })
+    .catch((error) => {
+      const { code, message } = error;
+      // For details of error codes, see the docs
+      // The message contains the default Firebase string
+      // representation of the error
+	  alert(error);
+    });
+}
+
 	render(){
 		return(
 		<View>
@@ -53,9 +100,9 @@ handle(){
 		);
 	}
 }
-
+// this.handle.bind(this)
 //<TouchableOpacity onPress = {this._callGoogle.bind(this)}> <View style = {styles.button}> <Text style={styles.buttonText}>Google Sign In</Text> </View> </TouchableOpacity>
-		
+	
 const styles ={
 button: {
 justifyContent: 'center',
