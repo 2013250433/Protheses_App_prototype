@@ -33,7 +33,7 @@ export default class SettingScreen extends Component{
 				this.setState({completeSwitch:true});
 			}
 			else{
-				alert('거짓');
+				//alert('거짓');
 				this.setState({completeSwitch:false});
 			}
 				
@@ -75,9 +75,9 @@ export default class SettingScreen extends Component{
 	this.saveData(value);
 	
 	if(value == true)
-		Alert.alert("Switch is On.");
+		Alert.alert("Completeion switch On.");
 	else
-		Alert.alert("Switch is Off.");
+		Alert.alert("Completeion switch Off.");
 	}
 	
 
@@ -124,8 +124,8 @@ export default class SettingScreen extends Component{
 				onValueChange={(seconds) => this.setState({seconds})}
 			>
 				<Picker.Item label="5" value={5} />
-				<Picker.Item label="10" value={10} />
 				<Picker.Item label="15" value={15} />
+				<Picker.Item label="40" value={40} />
 			</Picker>
 			<PushController />
 			</View>

@@ -106,7 +106,7 @@ onLoginOrRegister = () => {
 		return(
 		<View>
 			<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.onLoginOrRegister}/>
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('Setting')}>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
 				<Text> To HomeScreen</Text>
 			</TouchableOpacity>
 		</View>		

@@ -45,7 +45,7 @@ export default class HomeScreen extends Component<Props> {
 			<Image style={{flex:1, width: 1000, height: 1300, resizeMode:'contain'}} source={require('./res/heavy_steel.png')} />
 		</View>
 		
-		<View style={{flex:8, alignItems: 'center', backgroundColor:'#eee'}}>
+		<View style={{flex:8, alignItems: 'center', justifyContent: 'center', backgroundColor:'#eee'}}>
 			<TouchableOpacity onPress={()=>this.startWash()}>
 				<Image style={{}} source={require('./res/bluetooth_icon.png')}/>
 			</TouchableOpacity>
