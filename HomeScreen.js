@@ -7,11 +7,15 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  AppState,
 } from 'react-native';
 
 import {
   StackNavigator,
 } from 'react-navigation';
+
+import PushController from './PushController';
+import PushNotification from 'react-native-push-notification';
 
 const Realm = require('realm');
 
@@ -20,7 +24,14 @@ export default class HomeScreen extends Component<Props> {
 
 	constructor(){
 		super(); // why neeed super in realm?
-
+		
+		this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		
+		this.state = {
+			seconds: 5,
+			washToggle: false,
+		};
+		
 		realm = new Realm({
 				schema: [{name: 'Cleaning_Timestamp',
 				properties: 
@@ -32,11 +43,38 @@ export default class HomeScreen extends Component<Props> {
 				}]
 			});
 	}
-
+	
+	
 	static navigationOptions = {
 		header: null
 	};
-
+	
+	componentDidMount(){
+		AppState.addEventListener('change',this.handleAppStateChange);		
+	}
+	
+	componentWillUnmount(){
+		AppState.removeEventListener('change',this.handleAppStateChange);
+		
+	}	
+	
+	handleAppStateChange(appState) {
+		if(appState === 'background' && this.state.washToggletoggle == true){
+			console.log('app is in background',this.state.seconds);
+			var date = new Date(Date.now() + (this.state.seconds * 1000));
+			
+			if(Platform.OS === 'ios')
+				date= date.toISOString();
+				
+			PushNotification.localNotificationSchedule({
+			message: "세척이 완료되었습니다.", // (required)
+			date,
+			});
+			this.state.washToggletoggle = false;
+		}
+	}
+	
+	
   render() {
     return (
       <View style={{flex:1}}>
@@ -69,6 +107,7 @@ export default class HomeScreen extends Component<Props> {
   }
   
   startWash(){
+	  this.state.washToggletoggle = true;
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
 				var d = new Date();
@@ -79,7 +118,7 @@ export default class HomeScreen extends Component<Props> {
 				})
 			});
 			
-	  alert('WASH!!!');
+	  alert('세척을 시작합니다.');
   }
 }
 

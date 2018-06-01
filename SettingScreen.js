@@ -3,15 +3,16 @@ import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, Async
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
+//1분단위로 cleaning reminder
 
 export default class SettingScreen extends Component{
 	
 	constructor(props){
 		super(props);
 		
-		this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		//this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		this.state = {
-			seconds: 10,
+			seconds: 15,
 			toggle: true,
 			completeSwitch: false,
 		};
@@ -43,16 +44,16 @@ export default class SettingScreen extends Component{
 	}
 	
 	componentDidMount(){
-		AppState.addEventListener('change',this.handleAppStateChange);
+		//AppState.addEventListener('change',this.handleAppStateChange);
 			
 	}
 	
 	componentWillUnmount(){
-		AppState.removeEventListener('change',this.handleAppStateChange);
+		//AppState.removeEventListener('change',this.handleAppStateChange);
 		
 	}	
 	
-	handleAppStateChange(appState) {
+	/*handleAppStateChange(appState) {
 		if(appState === 'background'){
 			console.log('app is in background',this.state.seconds);
 			var date = new Date(Date.now() + (this.state.seconds * 1000));
@@ -61,11 +62,11 @@ export default class SettingScreen extends Component{
 				date= date.toISOString();
 				
 			PushNotification.localNotificationSchedule({
-			message: "My Notification Message", // (required)
+			message: "세척이 완료되었습니다.", // (required)
 			date,
 			});
 		}
-	}
+	}*/
 	
 	ShowAlert = (value) =>{		
 	
