@@ -9,20 +9,31 @@ import {
 
 import firebase from 'firebase';
 
-export default class SettingScreen extends Component<{}> {
+export default class LoginScreen extends Component<{}> {
+	
 	componentDidMount(){
-		GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+		var config = {
+    apiKey: "AIzaSyDjaidcL15uiCVsbnO3lGcxT0VrLBZiLJw",
+    authDomain: "prothesesapp-85a41.firebaseapp.com",
+    databaseURL: "https://prothesesapp-85a41.firebaseio.com",
+    projectId: "prothesesapp-85a41",
+    storageBucket: "prothesesapp-85a41.appspot.com",
+    messagingSenderId: "514936092191"
+  };
+  firebase.initializeApp(config);
+/*		GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
     // play services are available. can now configure library
 })
 .catch((err) => {
   console.log("Play services error", err.code, err.message);
 })
+*/
 
 
 GoogleSignin.configure({
   scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
   //iosClientId: <FROM DEVELOPER CONSOLE>, // only for iOS
-  webClientId: "271497519171-hj1mk87fih330cn4kj9gfc2fjk9mcl9d.apps.googleusercontent.com", // client ID of type WEB for your server (needed to verify user ID and offline access)
+  webClientId: "514936092191-fr8sb1siqfrbo6t6v6unb7lb2jk81gce.apps.googleusercontent.com", // client ID of type WEB for your server (needed to verify user ID and offline access)
   //offlineAccess: true // if you want to access Google API on behalf of the user FROM YOUR SERVER
   //hostedDomain: '' // specifies a hosted domain restriction
   //forceConsentPrompt: true // [Android] if you want to show the authorization prompt at each login
@@ -37,6 +48,7 @@ handle(){
 	GoogleSignin.signIn()
 .then((user) => {
   console.log(user);
+  alert(user);
   this.setState({user: user});
 })
 .catch((err) => {
@@ -79,6 +91,7 @@ onLoginOrRegister = () => {
       // If you need to do anything with the user, do it here
       // The user will be logged in automatically by the
       // `onAuthStateChanged` listener we set up in App.js earlier
+	  alert(user);
     })
     .catch((error) => {
       const { code, message } = error;
@@ -92,7 +105,7 @@ onLoginOrRegister = () => {
 	render(){
 		return(
 		<View>
-			<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.handle.bind(this)}/>
+			<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.onLoginOrRegister}/>
 			<TouchableOpacity onPress={() => this.props.navigation.navigate('Setting')}>
 				<Text> To HomeScreen</Text>
 			</TouchableOpacity>
