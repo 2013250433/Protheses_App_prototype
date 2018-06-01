@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, View, TouchableOpacity,} from 'react-native';
+import {View, KeyboardAvoidingView, TouchableOpacity, Image, Button, Text, TextInput } from 'react-native';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
@@ -10,6 +10,13 @@ import {
 import firebase from 'firebase';
 
 export default class LoginScreen extends Component<{}> {
+	
+	constructor(){
+		super();
+		this.state = {
+			//statement: "For your precious protheses",
+		};
+	}
 	
 	componentDidMount(){
 		var config = {
@@ -104,15 +111,50 @@ onLoginOrRegister = () => {
 
 	render(){
 		return(
-		<View>
-			<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.onLoginOrRegister}/>
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-				<Text> To HomeScreen</Text>
-			</TouchableOpacity>
+		<View style={{flex:1, flexDirection: 'row', backgroundColor:'white'}}>
+			<Image style={{position:'absolute', height: 280, width: 280, right:0, top:50 }} source={require('./res/login_steel.png')}/>
+			<GoogleSigninButton style={{position:'absolute', width: 48, height: 48, right:5, bottom:170 }} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.onLoginOrRegister}/>
+			<Text style={{position:'absolute', right:55, bottom:180}}>Sign in</Text>
+			
+			<View style={{flex: 7, backgroundColor:'#EEE' , paddingLeft: 30, opacity: 0.7}}>
+				<View style={{flex:4, justifyContent: 'center'}}>
+					<Text style={{fontSize: 40, fontWeight: 'bold'}}>For your{'\n'}precious{'\n'}protheses</Text>
+				</View>
+				<View style={{flex:2, justifyContent: 'center'}}>
+					<Text>EMAIL ADDRESS</Text>
+					<TextInput placeholder="admin"></TextInput>
+					<Text>PASSWORD</Text>
+					<TextInput placeholder="**********"></TextInput>
+				</View>	
+				<View style={{flex:4, justifyContent: 'center', paddingRight: 30}}>
+					<Button color="#0099DD" onPress={() => this.props.navigation.navigate('Home')} title="login"></Button>
+				</View>
+				
+			</View>
+			
+			<View style={{flex: 3}}>
+			</View>
+			
+			
 		</View>		
 		);
 	}
 }
+/*
+
+<View style={{flex: 3}}>
+					<Text>"For your precious protheses"</Text>
+				</View>
+				
+				<View style={{flex: 2}}> <Text>"For your precious protheses"</Text></View>
+				<View style={{flex: 1}}><Text>"For your precious protheses"</Text> </View>
+
+<GoogleSigninButton style={{width: 48, height: 48}} size={GoogleSigninButton.Size.Icon} color={GoogleSigninButton.Color.Dark} onPress={this.onLoginOrRegister}/>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+				
+			</TouchableOpacity>
+
+*/
 // this.handle.bind(this)
 //<TouchableOpacity onPress = {this._callGoogle.bind(this)}> <View style = {styles.button}> <Text style={styles.buttonText}>Google Sign In</Text> </View> </TouchableOpacity>
 	
