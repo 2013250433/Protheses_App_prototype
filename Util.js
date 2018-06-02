@@ -1,33 +1,27 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {AsyncStorage} from 'react-native';
 
-export default class Util() extends Component{
-	
-	componentWillMount(){
-		this.callStorage();
-	}
-	
-	callStorage = async() => {
-		try{
-			let value = await AsyncStorage.getItem('@complete');
-			if(value == 'true_jin'){
-				alert('참');
-				this.setState({completeSwitch:true});
-			}
-			else{
-				alert('거짓');
-				this.setState({completeSwitch:false});
-			}
-				
-		}
-		catch(error){
-		}
-	}
+/*export default class Util extends Component<props>{
 	
 	constructor(){
-		
+		super();
+		this.state = {
+			time: 0,
+		}
 	}
-	
-	render(){
-		
-	}
+
 }
+*/	
+	export function storeAcross(value) {
+		AsyncStorage.setItem('@cleaning_time',value.toString());
+	}
+
+	export function getStorage(){ 
+		getData();
+	}
+
+	getData = async() => {
+	let value = await AsyncStorage.getItem('@cleaning_time');
+		//alert(value);
+	}
+

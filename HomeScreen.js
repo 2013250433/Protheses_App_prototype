@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   AppState,
+  AsyncStorage,
 } from 'react-native';
 
 import {
@@ -17,7 +18,7 @@ import {
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
-import Util from './Util.js';
+//import {getStorage} from './Util';
 
 const Realm = require('realm');
 
@@ -32,10 +33,11 @@ export default class HomeScreen extends Component<Props> {
 		
 	
 		this.state = {
-			//seconds: 5,
+			washUntil: 15,
 			washToggle: false,
+			lastCleanToggle: false,
 			ble_on: false,
-			washUntil: 15, 
+			curTime: 0,
 		};
 		
 		realm = new Realm({
@@ -60,21 +62,22 @@ export default class HomeScreen extends Component<Props> {
 	}
 	
 	callStorage = async() => {
+		
 		try{
 			let value = await AsyncStorage.getItem('@cleaning_time');
-			alert(value);
-			if(value != null){
-				var time = parseInt(value);
-				
-				this.setState({washUntil: time})
-			}
+			v = parseInt(value);
+			this.setState({washUntil: v});
 		}
 		catch(error){
+			alert(error);
 		}
 	}
 	
 	componentDidMount(){
-		//AppState.addEventListener('change',this.handleAppStateChange);		
+		//AppState.addEventListener('change',this.handleAppStateChange);
+		setInterval( () => {
+			this.setState({curTime : new Date().getSeconds()})
+		},1000)
 	}
 	
 	componentWillUnmount(){
@@ -136,14 +139,17 @@ export default class HomeScreen extends Component<Props> {
 		<View style={{flex:8, alignItems: 'center', justifyContent: 'center', backgroundColor:'#eee'}}>
 			{
 				this.state.ble_on ?
-			<Text> after clean </Text>
+				
+				<View>
+					<Text style={{fontSize: 20,	fontWeight: 'bold'}}> {this.state.curTime} seconds {'\n'} after last clean </Text>
+				</View>
 			:
 			<TouchableOpacity onPress={()=>this.ble_toggle()}>
 				<Image style={{}} source={require('./res/bluetooth_icon.png')}/>
 			</TouchableOpacity>
 			}
 		</View>
-		
+		<Text>{this.state.washUntil}</Text>
 		<View style={{flex:1.4, flexDirection:'row', backgroundColor:'#fff'}}>
 			<View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
 				<TouchableOpacity onPress={() => this.props.navigation.navigate('DB')}>
@@ -182,6 +188,7 @@ export default class HomeScreen extends Component<Props> {
   }
   
   _washStart(){
+	
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
 				var d = new Date();
@@ -191,7 +198,9 @@ export default class HomeScreen extends Component<Props> {
 					time: d.getHours() + ':' + d.getMinutes(),
 				})
 			});
-	  alert('세척을 시작합니다.');
+	
+	  this.callStorage();	
+	  alert('세척을 시작합니다. 시간:'+this.state.washUntil);
 	  
 	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
 			

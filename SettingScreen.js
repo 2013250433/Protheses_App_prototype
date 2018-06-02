@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, Async
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
-import Util from './Util.js';
+//import {storeAcross} from './Util';
 //1분단위로 cleaning reminder
 
 export default class SettingScreen extends Component{
@@ -125,6 +125,7 @@ export default class SettingScreen extends Component{
 			
 			<View style={{alignItems:'center'}}>
 			<Text style={styles.textStyle}>Choose your notification time in seconds </Text>
+			<Text style={[styles.textStyle,{fontSize:15}]}>Note: you have to reboot the app after change </Text>
 			<Picker
 				style={[styles.picker,]}
 				selectedValue={this.state.seconds}
@@ -145,8 +146,9 @@ export default class SettingScreen extends Component{
 	//onValueChange={(seconds) => this.setState({seconds})}
 	pickerFunc = (value) => {
 		this.setState({seconds:value});
-		//alert(value);
+		
 		AsyncStorage.setItem('@cleaning_time',value.toString());
+		//storeAcross(value);
 	}
 	// How did this work?? based on pure luck
 	
@@ -157,6 +159,8 @@ export default class SettingScreen extends Component{
 		else
 			toggle = 'false_jin';
 		AsyncStorage.setItem('@complete',toggle);
+		
+		
 	}
 	
 	displayData = async () => {
