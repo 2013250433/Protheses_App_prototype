@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, View, TouchableOpacity, StyleSheet, Alert, Text, ScrollView, Image } from 'react-native'
+import { TextInput, View, TouchableOpacity, StyleSheet, Alert, Text, ScrollView, Image, FlatList,  } from 'react-native'
 
 const Realm = require('realm');
 
@@ -14,7 +14,7 @@ export default class DBScreen extends Component<{}> {
 			}
 		}
 		
-		add_Record=()=>{
+		/*add_Record=()=>{
 			
 			realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
@@ -27,29 +27,41 @@ export default class DBScreen extends Component<{}> {
 			});
 			
 			Alert.alert("time added successfully");
-		}
+		}*/
 		
 		render() {
 			var A = realm.objects('Cleaning_Timestamp');
 			var myJSON = JSON.stringify(A);
 			
 			return (
-				<View style={{flex:1}}>
+				<View style={{flex:1, backgroundColor:'#fff'}}>
 					<View style={styles.DB_header}>
 						<Image source={require('./res/cleaning_record_icon.png')} />
 						<Text style={styles.textStyle}> Cleaning Record </Text>
 					</View>
-				
-					<View style={{flex:9, flexDirection: 'row', backgroundColor: '#fff'}}>
-						<View style={{flex:4, alignItems:'center', borderRightColor: 'gray', borderRightWidth: 1}}>
-							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Date </Text>
+					<View style={{flex:0.7, flexDirection: 'row',  }}>
+						<View style={{flex:1, alignItems:'center', borderRightColor:'gray', borderRightWidth: 1 }}>
+							<Text style={styles.textStyle}> Date </Text>
 						</View>
-						<View style={{flex:3, alignItems:'center'}}>
-							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Time </Text>
-							<Text> {myJSON}</Text>
+						<View style={{flex:1, alignItems:'center', }}>
+							<Text style={styles.textStyle}> Time </Text>
 						</View>
 					</View>
-					
+					<View style={{flex:8, flexDirection: 'row', }}>
+						<FlatList
+							data={ A }
+							renderItem={({item}) => 
+							<View style={{flex:1, flexDirection: 'row',}}>
+								<View style={{flex:1, alignItems:'center',  borderRightColor:'gray', borderRightWidth: 1}}>
+									<Text>{item.date}</Text>
+								</View>
+								<View style={{flex:1, alignItems:'center',}}>
+									<Text>{item.time}</Text>
+								</View>
+							</View>}
+							keyExtractor={(item, index) => index.toString()}
+							/>
+					</View>				
 					<View style={{flex:1}}>
 					</View>
 				</View>
@@ -57,6 +69,25 @@ export default class DBScreen extends Component<{}> {
 		}
 	
 }
+/*
+<View style={{flex:4, alignItems:'center', borderRightColor: 'gray', borderRightWidth: 1}}>
+							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Date </Text>
+							
+							<FlatList
+							data={ A }
+							renderItem={({item}) => 
+							<View style={{flex:1, flexDirection: 'row'}}>
+								<Text>{item.date}</Text>
+							</View>}
+							keyExtractor={(item, index) => index.toString()}
+							/>
+							
+						</View>
+						<View style={{flex:3, alignItems:'center'}}>
+							<Text style={[styles.textStyle, {marginTop: 10, marginBottom: 10}]}> Time </Text>
+							<Text> {myJSON}</Text>
+						</View>
+*/
 
 const styles = StyleSheet.create({
 	

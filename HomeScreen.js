@@ -149,7 +149,7 @@ export default class HomeScreen extends Component<Props> {
 			</TouchableOpacity>
 			}
 		</View>
-		<Text>{this.state.washUntil}</Text>
+		{/*<Text>{this.state.washUntil}</Text>*/}
 		<View style={{flex:1.4, flexDirection:'row', backgroundColor:'#fff'}}>
 			<View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
 				<TouchableOpacity onPress={() => this.props.navigation.navigate('DB')}>
@@ -188,18 +188,23 @@ export default class HomeScreen extends Component<Props> {
   }
   
   _washStart(){
-	
+	this.callStorage();	
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
 				var d = new Date();
+				
+				var m = d.getMinutes();
+				if(m<10)
+					m = '0'+m.getMinutes();
+				
 				realm.create('Cleaning_Timestamp',{
 					id: ID,
 					date: (d.getFullYear()).toString()+ '. '+(d.getMonth()+1).toString() + '. ' +(d.getDate()).toString(),
-					time: d.getHours() + ':' + d.getMinutes(),
+					time: d.getHours() + ':' + m,
 				})
 			});
 	
-	  this.callStorage();	
+	  
 	  alert('세척을 시작합니다. 시간:'+this.state.washUntil);
 	  
 	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
