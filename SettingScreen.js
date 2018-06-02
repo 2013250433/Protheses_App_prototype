@@ -21,7 +21,7 @@ export default class SettingScreen extends Component{
 		this.state = {
 			seconds: 15,
 			toggle: true,
-			completeSwitch: false,
+			completeSwitch: true,
 		};
 		
 		
@@ -105,7 +105,9 @@ export default class SettingScreen extends Component{
 			</View>
 			<View>
 				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Delete Account </Text>
+				<TouchableOpacity onPress={()=>this.deleteDB()}>
 				<Text style={[styles.textStyle, {paddingLeft: 30}]}> Cleaning Record Reset </Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 		 
@@ -119,7 +121,7 @@ export default class SettingScreen extends Component{
 				<Text style={styles.textStyle}>Completion Push</Text>
 				<Switch onValueChange={(value) => this.ShowAlert(value)} value={this.state.completeSwitch}/>
 				<Text style={styles.textStyle}>Cleaning reminder</Text>
-				<Switch onValueChange={(value) => this.saveData()} value={true}/>
+				<Switch onValueChange={(value) => this.fooData()} value={true}/>
 			</View>
 		 </View>
 		 
@@ -153,6 +155,12 @@ export default class SettingScreen extends Component{
 		);
 	}
 	
+	deleteDB(){
+		realm.write(()=>{
+			realm.delete(realm.objects('Cleaning_Timestamp'));
+		});
+		alert("Deleted all record");
+	}
 	//onValueChange={(seconds) => this.setState({seconds})}
 	pickerFunc = (value) => {
 		this.setState({seconds:value});
@@ -169,7 +177,9 @@ export default class SettingScreen extends Component{
 		else
 			toggle = 'false_jin';
 		AsyncStorage.setItem('@complete',toggle);
-		
+	}
+	
+	fooData(){
 		
 	}
 	
