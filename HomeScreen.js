@@ -34,6 +34,7 @@ export default class HomeScreen extends Component<Props> {
 	
 		this.state = {
 			washUntil: 15,
+			lastWash: new Date().getTime(),
 			washToggle: false,
 			lastCleanToggle: false,
 			ble_on: false,
@@ -75,8 +76,16 @@ export default class HomeScreen extends Component<Props> {
 	
 	componentDidMount(){
 		//AppState.addEventListener('change',this.handleAppStateChange);
+		 
+		//var delta = now - this.state.lastWash;
 		setInterval( () => {
-			this.setState({curTime : new Date().getSeconds()})
+			var now = new Date().getTime();
+			var delta = now - this.state.lastWash;
+			
+			if(delta < 0)
+				delta = 0;
+			
+			this.setState({curTime : Math.floor(delta/1000)})
 		},1000)
 	}
 	
@@ -195,7 +204,7 @@ export default class HomeScreen extends Component<Props> {
 				
 				var m = d.getMinutes();
 				if(m<10)
-					m = '0'+m.getMinutes();
+					m = '0'+m;
 				
 				realm.create('Cleaning_Timestamp',{
 					id: ID,
@@ -206,9 +215,9 @@ export default class HomeScreen extends Component<Props> {
 	
 	  
 	  alert('세척을 시작합니다. 시간:'+this.state.washUntil);
-	  
+	 
 	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
-			
+			// gets Date in int
 			if(Platform.OS === 'ios')
 				date= date.toISOString();
 				
@@ -216,6 +225,8 @@ export default class HomeScreen extends Component<Props> {
 			message: "세척이 완료되었습니다.", // (required)
 			date,
 			});
+			
+			this.setState({lastWash: date.getTime()});
   }
 }
 
