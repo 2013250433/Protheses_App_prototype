@@ -28,7 +28,7 @@ export default class HomeScreen extends Component<Props> {
 	constructor(){
 		super(); // why neeed super in realm?
 		
-		this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		//this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		
 		
 	
@@ -39,6 +39,8 @@ export default class HomeScreen extends Component<Props> {
 			lastCleanToggle: false,
 			ble_on: false,
 			curTime: 0,
+			remTime: 0,
+			shouldPush: true,
 		};
 		
 		realm = new Realm({
@@ -68,6 +70,17 @@ export default class HomeScreen extends Component<Props> {
 			let value = await AsyncStorage.getItem('@cleaning_time');
 			v = parseInt(value);
 			this.setState({washUntil: v});
+			
+			let c_value = await AsyncStorage.getItem('@complete');
+			if(c_value == 'true_jin')
+				this.setState({shouldPush: true});
+			else
+				this.setState({shouldPush: false});
+			//alert(c_value);
+			/*let last_value = await AsyncStorage.getItem('@lastwash_time');
+			lv = parseInt(last_value);
+			this.setState({lastWash: lv});
+			alert(lv);	*/
 		}
 		catch(error){
 			alert(error);
@@ -76,16 +89,40 @@ export default class HomeScreen extends Component<Props> {
 	
 	componentDidMount(){
 		//AppState.addEventListener('change',this.handleAppStateChange);
-		 
+		
 		//var delta = now - this.state.lastWash;
 		setInterval( () => {
 			var now = new Date().getTime();
 			var delta = now - this.state.lastWash;
-			
+			//alert(this.state.lastWash);
 			if(delta < 0)
 				delta = 0;
 			
 			this.setState({curTime : Math.floor(delta/1000)})
+			
+			if(this.state.curTime == 60 - 5){
+				var date = new Date(Date.now());
+				PushNotification.localNotificationSchedule({
+				message: "세척 진행 후 1분 이상이 경과되었습니다.", // (required)
+				date,
+				});
+			}
+			
+			if(this.state.curTime == 60*2 - 5){
+				var date = new Date(Date.now());
+				PushNotification.localNotificationSchedule({
+				message: "세척 진행 후 2분 이상이 경과되었습니다.", // (required)
+				date,
+				});
+			}
+			
+			if(this.state.curTime == 60*5 - 5){
+				var date = new Date(Date.now());
+				PushNotification.localNotificationSchedule({
+				message: "세척 진행 후 5분 이상이 경과되었습니다.", // (required)
+				date,
+				});
+			}
 		},1000)
 	}
 	
@@ -94,7 +131,7 @@ export default class HomeScreen extends Component<Props> {
 		
 	}	
 	
-	handleAppStateChange(appState) {
+	/*handleAppStateChange(appState) {
 		if(appState === 'background' && this.state.washToggletoggle == true){
 			console.log('app is in background',this.state.seconds);
 			var date = new Date(Date.now() + (this.state.seconds * 1000));
@@ -108,7 +145,7 @@ export default class HomeScreen extends Component<Props> {
 			});
 			this.state.washToggletoggle = false;
 		}
-	}
+	}*/
 	
 	
 	
@@ -220,13 +257,18 @@ export default class HomeScreen extends Component<Props> {
 			// gets Date in int
 			if(Platform.OS === 'ios')
 				date= date.toISOString();
-				
+			
+			if(this.state.shouldPush){
 			PushNotification.localNotificationSchedule({
 			message: "세척이 완료되었습니다.", // (required)
 			date,
 			});
+			}
 			
 			this.setState({lastWash: date.getTime()});
+			//why it is correctly saved in states?
+			//alert(this.state.lastWash);
+			AsyncStorage.setItem('@lastwash_time',this.state.lastWash.toString());
   }
 }
 

@@ -8,6 +8,10 @@ import PushNotification from 'react-native-push-notification';
 
 export default class SettingScreen extends Component{
 	
+	static navigationOptions = {
+		title: 'setting'
+	};
+
 	constructor(props){
 		super(props);
 		
@@ -113,7 +117,7 @@ export default class SettingScreen extends Component{
 				<Text style={styles.textStyle}>Completion Push</Text>
 				<Switch onValueChange={(value) => this.ShowAlert(value)} value={this.state.completeSwitch}/>
 				<Text style={styles.textStyle}>Cleaning reminder</Text>
-				<Switch onValueChange={(value) => this.saveData()}/>
+				<Switch onValueChange={(value) => this.saveData()} value={true}/>
 			</View>
 		 </View>
 		 
