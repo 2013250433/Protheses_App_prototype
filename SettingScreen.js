@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, Async
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
+import Util from './Util.js';
 //1분단위로 cleaning reminder
 
 export default class SettingScreen extends Component{
@@ -37,7 +38,12 @@ export default class SettingScreen extends Component{
 				//alert('거짓');
 				this.setState({completeSwitch:false});
 			}
-				
+			let picker_value = await AsyncStorage.getItem('@cleaning_time');
+			let pv = parseInt(picker_value);
+			if(picker_value != null){
+				this.setState({seconds: pv}); 
+				//alert(picker_value);
+			}
 		}
 		catch(error){
 		}
@@ -122,11 +128,11 @@ export default class SettingScreen extends Component{
 			<Picker
 				style={[styles.picker,]}
 				selectedValue={this.state.seconds}
-				onValueChange={(seconds) => this.setState({seconds})}
+				onValueChange={this.pickerFunc}
 			>
 				<Picker.Item label="5" value={5} />
 				<Picker.Item label="15" value={15} />
-				<Picker.Item label="40" value={40} />
+				<Picker.Item label="30" value={30} />
 			</Picker>
 			<PushController />
 			</View>
@@ -135,6 +141,14 @@ export default class SettingScreen extends Component{
 		</View>
 		);
 	}
+	
+	//onValueChange={(seconds) => this.setState({seconds})}
+	pickerFunc = (value) => {
+		this.setState({seconds:value});
+		//alert(value);
+		AsyncStorage.setItem('@cleaning_time',value.toString());
+	}
+	// How did this work?? based on pure luck
 	
 	saveData(value) {
 		let toggle;

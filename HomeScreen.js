@@ -17,6 +17,8 @@ import {
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
+import Util from './Util.js';
+
 const Realm = require('realm');
 
 type Props = {};
@@ -30,9 +32,10 @@ export default class HomeScreen extends Component<Props> {
 		
 	
 		this.state = {
-			seconds: 5,
+			//seconds: 5,
 			washToggle: false,
 			ble_on: false,
+			washUntil: 15, 
 		};
 		
 		realm = new Realm({
@@ -52,12 +55,30 @@ export default class HomeScreen extends Component<Props> {
 		header: null
 	};
 	
+	componentWillMount(){
+		this.callStorage();
+	}
+	
+	callStorage = async() => {
+		try{
+			let value = await AsyncStorage.getItem('@cleaning_time');
+			alert(value);
+			if(value != null){
+				var time = parseInt(value);
+				
+				this.setState({washUntil: time})
+			}
+		}
+		catch(error){
+		}
+	}
+	
 	componentDidMount(){
-		AppState.addEventListener('change',this.handleAppStateChange);		
+		//AppState.addEventListener('change',this.handleAppStateChange);		
 	}
 	
 	componentWillUnmount(){
-		AppState.removeEventListener('change',this.handleAppStateChange);
+		//AppState.removeEventListener('change',this.handleAppStateChange);
 		
 	}	
 	
@@ -76,6 +97,8 @@ export default class HomeScreen extends Component<Props> {
 			this.state.washToggletoggle = false;
 		}
 	}
+	
+	
 	
 	/*
 	_bluetooth_off_screen= ()=>{
@@ -101,7 +124,7 @@ export default class HomeScreen extends Component<Props> {
 			{/* why use justify:for vert and align:for horizontal */}
 			{
 				this.state.ble_on ? 
-			<TouchableOpacity onPress={()=>this.washStart()}>
+			<TouchableOpacity onPress={()=>this._washStart()}>
 			<Image style={{flex:1, width: 1000, height: 1300, resizeMode:'contain'}} source={require('./res/on_steel.png')} />
 			</TouchableOpacity>
 			:
@@ -143,7 +166,7 @@ export default class HomeScreen extends Component<Props> {
 	  alert('기기가 블루투스로 연결되었습니다.');
   }
   
-  washStart(){
+  washStart(){	
 	  this.state.washToggletoggle = true;
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
@@ -156,6 +179,29 @@ export default class HomeScreen extends Component<Props> {
 			});
 			
 	  alert('세척을 시작합니다.');
+  }
+  
+  _washStart(){
+	  realm.write(()=>{
+				var ID = realm.objects('Cleaning_Timestamp').length + 1;
+				var d = new Date();
+				realm.create('Cleaning_Timestamp',{
+					id: ID,
+					date: (d.getFullYear()).toString()+ '. '+(d.getMonth()+1).toString() + '. ' +(d.getDate()).toString(),
+					time: d.getHours() + ':' + d.getMinutes(),
+				})
+			});
+	  alert('세척을 시작합니다.');
+	  
+	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
+			
+			if(Platform.OS === 'ios')
+				date= date.toISOString();
+				
+			PushNotification.localNotificationSchedule({
+			message: "세척이 완료되었습니다.", // (required)
+			date,
+			});
   }
 }
 
