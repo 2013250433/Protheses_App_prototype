@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import {
-	createStackNavigator,
+	createStackNavigator, createBottomTabNavigator, createSwitchNavigator,
 } from 'react-navigation';
 
 import { YellowBox } from 'react-native';

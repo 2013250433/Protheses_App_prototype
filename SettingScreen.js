@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, AsyncStorage, Image,} from 'react-native';
+import {View, Text, StyleSheet, Picker, AppState, Platform, Switch, Alert, AsyncStorage, Image, TouchableOpacity} from 'react-native';
 import PushController from './PushController';
 import PushNotification from 'react-native-push-notification';
 
 //import {storeAcross} from './Util';
 //1분단위로 cleaning reminder
 
+const Realm = require('realm');
+
 export default class SettingScreen extends Component{
 	
 	static navigationOptions = {
-		title: 'setting'
+		header: null
 	};
 
 	constructor(props){
@@ -96,7 +98,7 @@ export default class SettingScreen extends Component{
 		return (
 		<View style={{flex:1, backgroundColor:"#FFF"}}>
 		
-		 <View style={{flex:1,}}>
+		 <View style={{flex:1.5,}}>
 			<View style={styles.setting_header}>
 				<Image style={{}} source={require('./res/main_setting_icon.png')} />
 				<Text style={styles.textStyle}> Main Settings</Text>
@@ -142,7 +144,11 @@ export default class SettingScreen extends Component{
 			<PushController />
 			</View>
 		 </View>
-		 
+		 <View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
+						<TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+						<Image source={require('./res/home.png')} />
+						</TouchableOpacity>
+		 </View>
 		</View>
 		);
 	}

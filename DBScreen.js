@@ -4,6 +4,12 @@ import { TextInput, View, TouchableOpacity, StyleSheet, Alert, Text, ScrollView,
 const Realm = require('realm');
 
 export default class DBScreen extends Component<{}> {
+	
+		
+		static navigationOptions = {
+		header: null
+		};
+
 		constructor(){
 			super();
 			
@@ -62,7 +68,10 @@ export default class DBScreen extends Component<{}> {
 							keyExtractor={(item, index) => index.toString()}
 							/>
 					</View>				
-					<View style={{flex:1}}>
+					<View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
+						<TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+						<Image source={require('./res/home.png')} />
+						</TouchableOpacity>
 					</View>
 				</View>
 			);

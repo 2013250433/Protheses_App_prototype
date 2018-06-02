@@ -11,6 +11,10 @@ import firebase from 'firebase';
 
 export default class LoginScreen extends Component<{}> {
 	
+	static navigationOptions = {
+		header: null
+	};
+	
 	constructor(){
 		super();
 		this.state = {
