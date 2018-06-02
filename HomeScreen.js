@@ -21,15 +21,18 @@ const Realm = require('realm');
 
 type Props = {};
 export default class HomeScreen extends Component<Props> {
-
+	
 	constructor(){
 		super(); // why neeed super in realm?
 		
 		this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		
+		
+	
 		this.state = {
 			seconds: 5,
 			washToggle: false,
+			ble_on: false,
 		};
 		
 		realm = new Realm({
@@ -74,19 +77,48 @@ export default class HomeScreen extends Component<Props> {
 		}
 	}
 	
+	/*
+	_bluetooth_off_screen= ()=>{
+		return(
+			
+		);
+	}
+	
+	_bluetooth_on_screen= ()=>{
+		return(
+			
+		);
+	}
+	
+	
+	
+	*/
 	
   render() {
     return (
       <View style={{flex:1}}>
 		<View style={{flex:8, backgroundColor:'#fff', justifyContent: 'center', alignItems: 'center',}}> 
 			{/* why use justify:for vert and align:for horizontal */}
-			<Image style={{flex:1, width: 1000, height: 1300, resizeMode:'contain'}} source={require('./res/heavy_steel.png')} />
+			{
+				this.state.ble_on ? 
+			<TouchableOpacity onPress={()=>this.washStart()}>
+			<Image style={{flex:1, width: 1000, height: 1300, resizeMode:'contain'}} source={require('./res/on_steel.png')} />
+			</TouchableOpacity>
+			:
+			<Image style={{flex:1, width: 1000, height: 1300, resizeMode:'contain'}} source={require('./res/heavy_steel.png')} /> 
+			}
+			
 		</View>
 		
 		<View style={{flex:8, alignItems: 'center', justifyContent: 'center', backgroundColor:'#eee'}}>
-			<TouchableOpacity onPress={()=>this.startWash()}>
+			{
+				this.state.ble_on ?
+			<Text> after clean </Text>
+			:
+			<TouchableOpacity onPress={()=>this.ble_toggle()}>
 				<Image style={{}} source={require('./res/bluetooth_icon.png')}/>
 			</TouchableOpacity>
+			}
 		</View>
 		
 		<View style={{flex:1.4, flexDirection:'row', backgroundColor:'#fff'}}>
@@ -106,7 +138,12 @@ export default class HomeScreen extends Component<Props> {
     );
   }
   
-  startWash(){
+  ble_toggle(){
+	  this.setState({ble_on:true});
+	  alert('기기가 블루투스로 연결되었습니다.');
+  }
+  
+  washStart(){
 	  this.state.washToggletoggle = true;
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
