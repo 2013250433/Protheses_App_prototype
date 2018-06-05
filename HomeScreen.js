@@ -29,9 +29,9 @@ export default class HomeScreen extends Component<Props> {
 		super(); // why neeed super in realm?
 		
 		//this.handleAppStateChange = this.handleAppStateChange.bind(this);
+		this.callStorage();
 		
 		
-	
 		this.state = {
 			washUntil: 15,
 			lastWash: new Date().getTime(),
@@ -55,13 +55,17 @@ export default class HomeScreen extends Component<Props> {
 			});
 	}
 	
+	alerter = () =>{
+		alert('hi');
+	}
 	
 	static navigationOptions = {
 		header: null
 	};
 	
-	componentWillMount(){
-		this.callStorage();
+	componentWillMount(){ // recommended to put functions at constructor()
+	//	this.callStorage();
+	//	this.alerter();
 	}
 	
 	callStorage = async() => {
