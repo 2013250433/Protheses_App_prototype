@@ -107,15 +107,37 @@ export default class HomeScreen extends Component<Props> {
 		}
 	}
 	
-	shouldComponentUpdate(nextProps, nextState){
+	callStorage_3 = async() => {
+		
+		try{
+			let value = await AsyncStorage.getItem('@cleaning_time');
+			v = parseInt(value);
 			
-			if(nextState.washUntil !== this.state.washUntil){
-				//alert(nextState.washUntil);
-			 return false; 
+			this.setState({washUntil: v});
+		}
+		catch(error){
+			alert(error);
+		}
+		
+		alert('세척을 시작합니다. 시간:'+this.state.washUntil);
+	 
+	
+		var date = new Date(Date.now() + (this.state.washUntil * 1000));
+			// gets Date in int
+			if(Platform.OS === 'ios')
+				date= date.toISOString();
+			
+			if(this.state.shouldPush){
+			PushNotification.localNotificationSchedule({
+			message: "세척이 완료되었습니다.", // (required)
+			date,
+			});
 			}
-			else
-				return true;
-				
+			
+			this.setState({lastWash: date.getTime()});
+			//why it is correctly saved in states?
+			//alert(this.state.lastWash);
+			AsyncStorage.setItem('@lastwash_time',this.state.lastWash.toString());
 	}
 	
 	componentDidMount(){
@@ -265,7 +287,7 @@ export default class HomeScreen extends Component<Props> {
   }
   
   _washStart(){
-	this.callStorage();
+	
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
 				var d = new Date();
@@ -280,27 +302,8 @@ export default class HomeScreen extends Component<Props> {
 					time: d.getHours() + ':' + m,
 				})
 			});
-	
-	  
-	  alert('세척을 시작합니다. 시간:'+this.state.washUntil);
 	 
-	this.callStorage_2;
-	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
-			// gets Date in int
-			if(Platform.OS === 'ios')
-				date= date.toISOString();
-			
-			if(this.state.shouldPush){
-			PushNotification.localNotificationSchedule({
-			message: "세척이 완료되었습니다.", // (required)
-			date,
-			});
-			}
-			
-			this.setState({lastWash: date.getTime()});
-			//why it is correctly saved in states?
-			//alert(this.state.lastWash);
-			AsyncStorage.setItem('@lastwash_time',this.state.lastWash.toString());
+	this.callStorage_3();
   }
 }
 
