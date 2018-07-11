@@ -30,7 +30,7 @@ export default class HomeScreen extends Component<Props> {
 		
 		//this.handleAppStateChange = this.handleAppStateChange.bind(this);
 		this.callStorage();
-		
+		this.callStorage_2();
 		
 		this.state = {
 			washUntil: 15,
@@ -73,8 +73,24 @@ export default class HomeScreen extends Component<Props> {
 		try{
 			let value = await AsyncStorage.getItem('@cleaning_time');
 			v = parseInt(value);
+			
 			this.setState({washUntil: v});
 			
+			
+			//alert(c_value);
+			/*let last_value = await AsyncStorage.getItem('@lastwash_time');
+			lv = parseInt(last_value);
+			this.setState({lastWash: lv});
+			alert(lv);	*/
+		}
+		catch(error){
+			alert(error);
+		}
+	}
+	
+	callStorage_2 = async() => {
+		
+		try{		
 			let c_value = await AsyncStorage.getItem('@complete');
 			if(c_value == 'true_jin')
 				this.setState({shouldPush: true});
@@ -89,6 +105,17 @@ export default class HomeScreen extends Component<Props> {
 		catch(error){
 			alert(error);
 		}
+	}
+	
+	shouldComponentUpdate(nextProps, nextState){
+			
+			if(nextState.washUntil !== this.state.washUntil){
+				//alert(nextState.washUntil);
+			 return false; 
+			}
+			else
+				return true;
+				
 	}
 	
 	componentDidMount(){
@@ -238,7 +265,7 @@ export default class HomeScreen extends Component<Props> {
   }
   
   _washStart(){
-	this.callStorage();	
+	this.callStorage();
 	  realm.write(()=>{
 				var ID = realm.objects('Cleaning_Timestamp').length + 1;
 				var d = new Date();
@@ -257,6 +284,7 @@ export default class HomeScreen extends Component<Props> {
 	  
 	  alert('세척을 시작합니다. 시간:'+this.state.washUntil);
 	 
+	this.callStorage_2;
 	  var date = new Date(Date.now() + (this.state.washUntil * 1000));
 			// gets Date in int
 			if(Platform.OS === 'ios')
